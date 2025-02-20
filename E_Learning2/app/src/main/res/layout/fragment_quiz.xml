@@ -9,9 +9,9 @@
     <!-- Maintenance Icon (Replace @drawable/ic_maintenance with your icon) -->
     <ImageView
         android:id="@+id/maintenanceIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_maintenance"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_5"
         android:contentDescription="Maintenance Icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/footerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By sAnmol"
+        android:text="By Anmol"
         android:textSize="18sp"
         android:textStyle="italic"
         android:textColor="#007AFF"

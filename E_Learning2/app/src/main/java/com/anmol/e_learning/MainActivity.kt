@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())
                 R.id.nav_courses -> loadFragment(CoursesFragment())
-                R.id.nav_quiz -> loadFragment(QuizListFragment())
+                R.id.nav_quiz -> loadFragment(QuizFragment())
                 R.id.nav_profile -> loadFragment(ProfileFragment())
             }
             true
