@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Auto Image Slider -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/bannerViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:overScrollMode="never" />
+
+        <!-- Indicator for ViewPager -->
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <!-- Welcome Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Master Python &amp; Django with EduBuddy"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:paddingTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Learn Python and Django with structured notes &amp; test your knowledge with quizzes."
+            android:textSize="16sp"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:padding="12dp" />
+
+        <!-- Feature Section -->
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:rowCount="1">
+
+            <!-- Python Notes -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:src="@drawable/img_6"
+                    android:contentDescription="Python Notes"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Python Notes"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+
+            <!-- Django Notes -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:src="@drawable/img_7"
+                    android:contentDescription="Django Notes"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Django Notes"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+
+            <!-- Quiz -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:src="@drawable/img_8"
+                    android:contentDescription="Quiz"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quiz"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+
+        </GridLayout>
+
+        <!-- Call-to-Action Button -->
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Learning Now"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</ScrollView>

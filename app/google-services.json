@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348763482288",
+    "project_id": "edubuddy-b63fa",
+    "storage_bucket": "edubuddy-b63fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348763482288:android:fa9b34c2b39990169d3375",
+        "android_client_info": {
+          "package_name": "com.anmol.e_learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348763482288-0rrv0nfuganib81r90h46dr6ijcl3v40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhQw2URIQEDcitlko7npeEf4Pnet3WQEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348763482288-0rrv0nfuganib81r90h46dr6ijcl3v40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

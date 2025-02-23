@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="20dp">
+
+    <!-- Profile Image (Circular) -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewProfile"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/ic_profile_placeholder"
+        android:scaleType="centerCrop"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/primaryColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
+
+    <!-- Edit Profile Picture Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEditProfilePicture"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_camera"
+        app:tint="@android:color/black"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewProfile"
+        app:layout_constraintEnd_toEndOf="@id/imageViewProfile"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        app:elevation="0dp"
+        app:pressedTranslationZ="0dp" />
+
+    <!-- Name Field -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/primaryColor"
+        app:layout_constraintTop_toBottomOf="@id/imageViewProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:hint="Full Name"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Email Field (Non-Editable) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/primaryColor"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:textColor="@color/black"
+            android:enabled="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Change Password Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Password Reset Link"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_lock"
+        app:iconPadding="8dp"
+        app:iconGravity="start"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Update Profile Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonUpdateProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Changes"
+        app:cornerRadius="12dp"
+        app:backgroundTint="@color/primaryColor"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/buttonChangePassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Logout Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:cornerRadius="12dp"
+        app:backgroundTint="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
+        app:icon="@drawable/ic_logout"
+        app:iconPadding="8dp"
+        app:iconGravity="start"
+        app:layout_constraintTop_toBottomOf="@id/buttonUpdateProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

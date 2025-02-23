@@ -1,0 +1,142 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- App Logo -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo"
+            android:contentDescription="App Logo"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/loginHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:textColor="#1F1F1F"
+            android:paddingTop="10dp"
+            android:paddingBottom="24dp"
+            android:shadowColor="#888888"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3" />
+
+
+        <!-- Name Input Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Name"
+                android:textColor="@color/black"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Email Input Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Email"
+                android:textColor="@color/black"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Input Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password"
+                android:textColor="@color/black"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password Input Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirmPasswordInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:boxStrokeColor="@android:color/holo_blue_dark"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Re-enter Password"
+                android:textColor="@color/black"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white" />
+
+        <!-- Login Link -->
+        <TextView
+            android:id="@+id/loginLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? Log in"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+</ScrollView>

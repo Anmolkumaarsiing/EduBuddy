@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_margin="8dp">
+
+    <!-- Question Text -->
+    <TextView
+        android:id="@+id/textViewQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Question?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+    android:paddingBottom="8dp" />
+
+    <!-- Options -->
+    <RadioGroup
+        android:id="@+id/radioGroupOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="4dp"
+        app:materialThemeOverlay="@style/ThemeOverlay.Material3.Dark"> <!-- Forces Dark Theme Text -->
+
+        <RadioButton
+            android:id="@+id/radioOption1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Option 1"
+            android:textColor="?attr/colorOnSurface"
+            android:padding="6dp" />
+
+        <RadioButton
+            android:id="@+id/radioOption2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Option 2"
+            android:textColor="?attr/colorOnSurface"
+            android:padding="6dp" />
+
+        <RadioButton
+            android:id="@+id/radioOption3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Option 3"
+            android:textColor="?attr/colorOnSurface"
+            android:padding="6dp" />
+
+        <RadioButton
+            android:id="@+id/radioOption4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Option 4"
+            android:textColor="?attr/colorOnSurface"
+            android:padding="6dp" />
+    </RadioGroup>
+
+</LinearLayout>
