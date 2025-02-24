@@ -62,6 +62,7 @@ dependencies {
     implementation("io.coil-kt:coil:2.2.2")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.razorpay:checkout:1.6.26")
 
     // Other Dependencies
     implementation(libs.androidx.appcompat)

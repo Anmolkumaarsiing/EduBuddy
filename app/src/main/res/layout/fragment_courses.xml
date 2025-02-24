@@ -7,33 +7,33 @@
     android:background="#F5F5F5"
     android:padding="8dp">
 
-    <!-- Header Section (Now it remains fixed on top) -->
+    <!-- ✅ Fixed Header Styling -->
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Python &amp; Django"
+        android:text="Python &amp; Django Courses"
         android:textSize="22sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:padding="12dp"
+        android:padding="14dp"
         android:textColor="#FFFFFF"
-        android:background="#008577"
+        android:background="@color/blue"
         android:elevation="4dp"
         android:layout_marginBottom="8dp" />
 
-    <!-- SwipeRefreshLayout for Pull-to-Refresh Feature -->
+    <!-- ✅ Swipe-to-Refresh Feature -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayoutCourses"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- RecyclerView for displaying courses -->
+        <!-- ✅ RecyclerView with Better Padding -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCourses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="12dp"
+            android:padding="10dp"
             android:clipToPadding="false"
             android:scrollbars="vertical"
             android:background="#FFFFFF"

@@ -2,23 +2,27 @@ package com.anmol.e_learning
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 
-class CoursesAdapter(private val context: Context, private val courses: List<CourseData>) :
-    RecyclerView.Adapter<CoursesAdapter.CourseViewHolder>() {
+class CoursesAdapter(
+    private val context: Context,
+    private val courses: List<CourseData>,
+    private val purchasedCourses: List<String>, // ✅ Added purchasedCourses list
+    private val onBuyClick: (CourseData) -> Unit
+) : RecyclerView.Adapter<CoursesAdapter.CourseViewHolder>() {
 
     inner class CourseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val coverImage: ImageView = view.findViewById(R.id.imageView)
         val titleText: TextView = view.findViewById(R.id.title)
         val detailsText: TextView = view.findViewById(R.id.details)
+        val buttonBuy: Button = view.findViewById(R.id.buttonBuy)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -30,33 +34,19 @@ class CoursesAdapter(private val context: Context, private val courses: List<Cou
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = courses[position]
         holder.titleText.text = course.unitName
-
-        // Details
         holder.detailsText.text = "Unit ${course.unitNumber}"
+        holder.coverImage.load(course.urlToImg)
 
-        // Load Image
-        holder.coverImage.load(course.urlToImg) {
-            crossfade(true)
-            placeholder(R.drawable.placeholder_cover)
+        // ✅ Check if course is already purchased
+        if (purchasedCourses.contains(course.unitName)) {
+            holder.buttonBuy.text = "Purchased"
+            holder.buttonBuy.isEnabled = false // Disable button for purchased courses
+        } else {
+            holder.buttonBuy.text = "Buy Now ₹99"
+            holder.buttonBuy.isEnabled = true
+            holder.buttonBuy.setOnClickListener { onBuyClick(course) }
         }
-
-        // Open Google Drive link in-app on Image Click
-        holder.coverImage.setOnClickListener {
-            val driveLink = course.driveLink
-            if (driveLink.isNotEmpty()) {
-                val intent = Intent(context, DriveWebViewActivity::class.java)
-                intent.putExtra("DRIVE_URL", driveLink)
-                context.startActivity(intent)
-            }
-        }
-
     }
 
     override fun getItemCount(): Int = courses.size
-
-    private fun openInCustomTab(context: Context, url: String) {
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(context, Uri.parse(url))
-    }
 }
