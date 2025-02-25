@@ -17,47 +17,42 @@ class MainActivity : AppCompatActivity(), PaymentResultListener {
 
         // Load HomeFragment by default when the activity starts
         if (savedInstanceState == null) {
-            loadFragment(HomeFragment())
+            loadFragment(HomeFragment(), "HomeFragment")
         }
 
         // Handle bottom navigation item selection
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> loadFragment(HomeFragment())
-                R.id.nav_courses -> loadFragment(CoursesFragment())
-                R.id.nav_quiz -> loadFragment(QuizFragment())
-                R.id.nav_profile -> loadFragment(ProfileFragment())
+                R.id.nav_home -> loadFragment(HomeFragment(), "HomeFragment")
+                R.id.nav_courses -> loadFragment(CoursesFragment(), "CoursesFragment")
+                R.id.nav_quiz -> loadFragment(QuizFragment(), "QuizFragment")
+                R.id.nav_profile -> loadFragment(ProfileFragment(), "ProfileFragment")
             }
             true
         }
     }
 
-    // Function to replace fragments
-    private fun loadFragment(fragment: Fragment) {
+    private fun loadFragment(fragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container, fragment, tag)
             .commit()
     }
 
-    // ✅ Handle Payment Success
     override fun onPaymentSuccess(paymentId: String?) {
         Toast.makeText(this, "Payment Successful! ID: $paymentId", Toast.LENGTH_LONG).show()
 
-        // ✅ Find CoursesFragment and pass the success event
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (fragment is CoursesFragment) {
-            fragment.handlePaymentSuccess(paymentId)
+        val fragment = supportFragmentManager.findFragmentByTag("CoursesFragment")
+        if (fragment is PaymentCallback) {
+            fragment.onPaymentSuccess(paymentId)
         }
     }
 
-    // ✅ Handle Payment Failure
     override fun onPaymentError(errorCode: Int, errorMessage: String?) {
         Toast.makeText(this, "Payment Failed: $errorMessage", Toast.LENGTH_LONG).show()
 
-        // ✅ Find CoursesFragment and pass the error event
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (fragment is CoursesFragment) {
-            fragment.handlePaymentError(errorCode, errorMessage)
+        val fragment = supportFragmentManager.findFragmentByTag("CoursesFragment")
+        if (fragment is PaymentCallback) {
+            fragment.onPaymentError(errorCode, errorMessage)
         }
     }
 }

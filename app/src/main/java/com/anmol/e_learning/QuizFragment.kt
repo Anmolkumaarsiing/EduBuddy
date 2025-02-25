@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class QuizFragment : Fragment() {
 
-    private lateinit var questionContainer: LinearLayout
+    private var questionContainer: LinearLayout? = null
     private lateinit var buttonSubmit: Button
     private var quizQuestions: List<QuizData> = emptyList()
     private val selectedAnswers = mutableMapOf<Int, String>() // Stores selected answers
@@ -54,50 +54,54 @@ class QuizFragment : Fragment() {
             override fun onResponse(call: Call<List<QuizData>>, response: Response<List<QuizData>>) {
                 if (response.isSuccessful) {
                     quizQuestions = response.body()?.shuffled()?.take(10) ?: emptyList()
-                    displayQuestions()
+                    if (isAdded) {
+                        displayQuestions()
+                    }
                 } else {
-                    Toast.makeText(context, "Failed to load questions", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Failed to load questions", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<QuizData>>, t: Throwable) {
-                Toast.makeText(context, "Error loading questions", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Error loading questions", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
 
     private fun displayQuestions() {
-        questionContainer.removeAllViews()
+        questionContainer?.removeAllViews()
 
         for ((index, question) in quizQuestions.withIndex()) {
-            val questionTextView = TextView(context).apply {
+            val questionTextView = TextView(requireContext()).apply {
                 text = "Q${index + 1}: ${question.question}"
                 textSize = 18f
-                setTextColor(resources.getColor(android.R.color.black, null)) // Force Black
+                setTextColor(resources.getColor(android.R.color.black, null))
                 setPadding(8, 8, 8, 8)
             }
 
-            val radioGroup = RadioGroup(context).apply {
+            val radioGroup = RadioGroup(requireContext()).apply {
                 orientation = RadioGroup.VERTICAL
             }
 
             val options = listOf(question.option1, question.option2, question.option3, question.option4)
             for (option in options) {
-                val radioButton = RadioButton(context).apply {
+                val radioButton = RadioButton(requireContext()).apply {
                     text = option
-                    setTextColor(resources.getColor(android.R.color.black, null)) // Force Black
+                    setTextColor(resources.getColor(android.R.color.black, null))
                     setOnClickListener { selectedAnswers[index] = option }
                 }
                 radioGroup.addView(radioButton)
             }
 
-            questionContainer.addView(questionTextView)
-            questionContainer.addView(radioGroup)
+            questionContainer?.addView(questionTextView)
+            questionContainer?.addView(radioGroup)
         }
     }
 
     private fun saveAnswersAndShowResults() {
-        buttonSubmit.isEnabled = false  // Prevent multiple clicks
+        buttonSubmit.isEnabled = false // Prevent multiple clicks
 
         val score = calculateScore(selectedAnswers)
         val userId = auth.currentUser?.uid ?: return
@@ -120,7 +124,6 @@ class QuizFragment : Fragment() {
             )
         }
 
-        // Only save the current quiz, not past ones
         saveQuizResultsToFirestore(score, questionResults)
     }
 
@@ -131,17 +134,17 @@ class QuizFragment : Fragment() {
             "userId" to userId,
             "score" to score,
             "totalQuestions" to results.size,
-            "timestamp" to System.currentTimeMillis(), // ✅ Ensures latest timestamp is used
+            "timestamp" to System.currentTimeMillis(),
             "answers" to results
         )
 
         db.collection("quizResults")
             .add(quizResult)
             .addOnSuccessListener {
-                navigateToResults(score, results) // ✅ Only pass the latest results
+                if (isAdded) navigateToResults(score, results)
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to save results", Toast.LENGTH_SHORT).show()
+                if (isAdded) Toast.makeText(requireContext(), "Failed to save results", Toast.LENGTH_SHORT).show()
             }
     }
 

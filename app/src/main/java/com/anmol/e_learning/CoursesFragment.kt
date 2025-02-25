@@ -17,9 +17,9 @@ import org.json.JSONObject
 
 class CoursesFragment : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: CoursesAdapter
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var recyclerView: RecyclerView? = null
+    private var adapter: CoursesAdapter? = null
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var selectedCourse: CourseData? = null
@@ -32,14 +32,14 @@ class CoursesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_courses, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewCourses)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutCourses)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView?.layoutManager = LinearLayoutManager(context)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         fetchPurchasedCourses()
 
-        swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout?.setOnRefreshListener {
             fetchPurchasedCourses()
         }
 
@@ -57,12 +57,14 @@ class CoursesFragment : Fragment() {
                 fetchCourses()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Failed to load purchased courses", Toast.LENGTH_SHORT).show()
+                context?.let { ctx ->
+                    Toast.makeText(ctx, "Failed to load purchased courses", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
     private fun fetchCourses() {
-        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout?.isRefreshing = true
 
         val retrofit = retrofit2.Retrofit.Builder()
             .baseUrl("https://67b9a31351192bd378ddfbe4.mockapi.io/api/v1/")
@@ -73,22 +75,32 @@ class CoursesFragment : Fragment() {
 
         apiService.getCourses().enqueue(object : retrofit2.Callback<CoursesResponse> {
             override fun onResponse(call: retrofit2.Call<CoursesResponse>, response: retrofit2.Response<CoursesResponse>) {
-                swipeRefreshLayout.isRefreshing = false
+                swipeRefreshLayout?.isRefreshing = false
                 if (response.isSuccessful) {
                     val courses = response.body() ?: emptyList()
-                    adapter = CoursesAdapter(requireContext(), courses, purchasedCourses) { course ->
-                        selectedCourse = course
-                        startPayment()
+
+                    if (!isAdded) return // Prevent crash if fragment is detached
+
+                    context?.let { ctx ->
+                        adapter = CoursesAdapter(ctx, courses, purchasedCourses) { course ->
+                            selectedCourse = course
+                            startPayment()
+                        }
+                        recyclerView?.adapter = adapter
                     }
-                    recyclerView.adapter = adapter
                 } else {
-                    Toast.makeText(context, "Failed to fetch courses", Toast.LENGTH_SHORT).show()
+                    context?.let { ctx ->
+                        Toast.makeText(ctx, "Failed to fetch courses", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             override fun onFailure(call: retrofit2.Call<CoursesResponse>, t: Throwable) {
-                swipeRefreshLayout.isRefreshing = false
-                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                swipeRefreshLayout?.isRefreshing = false
+
+                context?.let { ctx ->
+                    Toast.makeText(ctx, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
@@ -112,13 +124,17 @@ class CoursesFragment : Fragment() {
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Payment Error: ${e.message}", Toast.LENGTH_LONG).show()
+            context?.let { ctx ->
+                Toast.makeText(ctx, "Payment Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
     // ✅ Called by MainActivity after successful payment
     fun handlePaymentSuccess(paymentId: String?) {
-        Toast.makeText(context, "Payment Successful! ID: $paymentId", Toast.LENGTH_LONG).show()
+        context?.let { ctx ->
+            Toast.makeText(ctx, "Payment Successful! ID: $paymentId", Toast.LENGTH_LONG).show()
+        }
 
         val userId = auth.currentUser?.uid ?: return
         val course = selectedCourse ?: return
@@ -133,16 +149,28 @@ class CoursesFragment : Fragment() {
             .document(course.unitName)
             .set(purchasedCourse)
             .addOnSuccessListener {
-                Toast.makeText(context, "Course Unlocked!", Toast.LENGTH_SHORT).show()
+                context?.let { ctx ->
+                    Toast.makeText(ctx, "Course Unlocked!", Toast.LENGTH_SHORT).show()
+                }
                 fetchPurchasedCourses()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Error unlocking course", Toast.LENGTH_SHORT).show()
+                context?.let { ctx ->
+                    Toast.makeText(ctx, "Error unlocking course", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 
     fun handlePaymentError(errorCode: Int, errorMessage: String?) {
-        Toast.makeText(context, "Payment Failed: $errorMessage", Toast.LENGTH_LONG).show()
+        context?.let { ctx ->
+            Toast.makeText(ctx, "Payment Failed: $errorMessage", Toast.LENGTH_LONG).show()
+        }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerView = null
+        swipeRefreshLayout = null
+        adapter = null
+    }
 }

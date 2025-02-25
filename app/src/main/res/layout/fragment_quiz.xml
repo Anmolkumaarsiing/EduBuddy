@@ -24,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit Quiz"
-            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:backgroundTint="@color/blue"
             android:textColor="@android:color/white"
             android:layout_marginTop="12dp"/>
     </LinearLayout>
