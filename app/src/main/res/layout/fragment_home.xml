@@ -136,18 +136,29 @@
         </GridLayout>
 
         <!-- Start Learning Now TextLink -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_background"
+            android:padding="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="45dp"
+            android:layout_gravity="center">
+
         <TextView
             android:id="@+id/startLearningText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:layout_marginLeft="120dp"
-            android:paddingBottom="18dp"
             android:text="Start Learning Now"
-            android:textColor="@color/blue"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+</LinearLayout>
 </ScrollView>
