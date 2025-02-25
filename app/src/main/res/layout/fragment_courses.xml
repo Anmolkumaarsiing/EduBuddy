@@ -7,7 +7,7 @@
     android:background="#F5F5F5"
     android:padding="8dp">
 
-    <!-- ✅ Fixed Header Styling -->
+    <!-- Header Styling -->
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -16,11 +16,13 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:padding="14dp"
+        android:padding="8dp"
         android:textColor="#FFFFFF"
-        android:background="@android:color/holo_blue_dark"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:background="@drawable/rounded_background"
         android:elevation="4dp"
         android:layout_marginBottom="8dp" />
+
 
     <!-- ✅ Swipe-to-Refresh Feature -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
