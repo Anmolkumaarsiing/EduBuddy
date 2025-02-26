@@ -181,7 +181,7 @@ class CoursesFragment : Fragment(), PaymentCallback {
 
         try {
             val options = JSONObject()
-            options.put("name", "E-Learning")
+            options.put("name", "EduBuddy")
             options.put("description", "Purchase ${selectedCourse?.unitName}")
             options.put("currency", "INR")
             options.put("amount", 9900)
