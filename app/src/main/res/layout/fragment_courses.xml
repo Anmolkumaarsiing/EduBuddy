@@ -12,7 +12,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Python &amp; Django Courses"
+        android:text="Mobile App Development"
         android:textSize="22sp"
         android:textStyle="bold"
         android:gravity="center"

@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Master Python &amp; Django with EduBuddy"
+            android:text="Master Android Development with EduBuddy"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Learn Python and Django with structured notes &amp; test your knowledge with quizzes."
+            android:text="Learn Android Development with structured notes &amp; test your knowledge with quizzes."
             android:textSize="16sp"
             android:textColor="@color/gray"
             android:gravity="center"
@@ -69,14 +69,14 @@
                 <ImageView
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:src="@drawable/img_6"
-                    android:contentDescription="Python Notes"
+                    android:src="@drawable/img_android"
+                    android:contentDescription="Android studio"
                     android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Python Notes"
+                    android:text="Android"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="center"
@@ -94,14 +94,14 @@
                 <ImageView
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:src="@drawable/img_7"
-                    android:contentDescription="Django Notes"
+                    android:src="@drawable/img_ui_ux"
+                    android:contentDescription="Notes"
                     android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Django Notes"
+                    android:text="UI/UX Design"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="center"
@@ -119,14 +119,14 @@
                 <ImageView
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:src="@drawable/img_8"
-                    android:contentDescription="Quiz"
+                    android:src="@drawable/img_kotlin"
+                    android:contentDescription="kotlin"
                     android:scaleType="fitCenter" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quiz"
+                    android:text="Kotlin Programming"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:gravity="center"
