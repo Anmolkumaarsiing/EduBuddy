@@ -14,7 +14,7 @@ import coil.load
 class CoursesAdapter(
     private val context: Context,
     private val courses: List<CourseData>,
-    private val purchasedCourses: List<String>, // ✅ Purchased courses list
+    private val purchasedCourses: List<String>,
     private val onBuyClick: (CourseData) -> Unit
 ) : RecyclerView.Adapter<CoursesAdapter.CourseViewHolder>() {
 
@@ -37,33 +37,33 @@ class CoursesAdapter(
         holder.detailsText.text = "Unit ${course.unitNumber}"
         holder.coverImage.load(course.urlToImg)
 
-        // ✅ If it's the first course (Unit 0), make it FREE
-        if (course.unitNumber == 0) {
-            holder.buttonBuy.text = "Start for Free"
-            holder.buttonBuy.isEnabled = true
-            holder.buttonBuy.setOnClickListener {
-                openDriveWebView(course.driveLink) // ✅ Open WebView directly
+        when {
+            course.unitNumber == 0 -> { // ✅ Free Syllabus
+                holder.buttonBuy.text = "View Syllabus"
+                holder.buttonBuy.isEnabled = true
+                holder.buttonBuy.setOnClickListener {
+                    openDriveWebView(course.driveLink)
+                }
             }
-        }
-        // ✅ If course is already purchased, allow access
-        else if (purchasedCourses.contains(course.unitName)) {
-            holder.buttonBuy.text = "Open Course"
-            holder.buttonBuy.isEnabled = true
-            holder.buttonBuy.setOnClickListener {
-                openDriveWebView(course.driveLink) // ✅ Open WebView for purchased courses
+            purchasedCourses.contains(course.unitName) -> { // ✅ Already Purchased
+                holder.buttonBuy.text = "Open Course"
+                holder.buttonBuy.isEnabled = true
+                holder.buttonBuy.setOnClickListener {
+                    openDriveWebView(course.driveLink)
+                }
             }
-        }
-        // ✅ Otherwise, show "Buy Now ₹99"
-        else {
-            holder.buttonBuy.text = "Buy Now ₹99"
-            holder.buttonBuy.isEnabled = true
-            holder.buttonBuy.setOnClickListener { onBuyClick(course) }
+            else -> { // ✅ Needs to be purchased
+                holder.buttonBuy.text = "Buy Now ₹99"
+                holder.buttonBuy.isEnabled = true
+                holder.buttonBuy.setOnClickListener {
+                    onBuyClick(course)
+                }
+            }
         }
     }
 
     override fun getItemCount(): Int = courses.size
 
-    // ✅ Function to open Drive WebView
     private fun openDriveWebView(driveLink: String?) {
         if (!driveLink.isNullOrEmpty()) {
             val intent = Intent(context, DriveWebViewActivity::class.java)
