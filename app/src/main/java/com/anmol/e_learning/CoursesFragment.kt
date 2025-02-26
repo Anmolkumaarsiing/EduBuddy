@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.razorpay.Checkout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class CoursesFragment : Fragment(), PaymentCallback {
@@ -22,6 +27,8 @@ class CoursesFragment : Fragment(), PaymentCallback {
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var localDb: CoursesDatabase
+
     private var selectedCourse: CourseData? = null
     private var purchasedCourses: MutableList<String> = mutableListOf()
 
@@ -37,6 +44,13 @@ class CoursesFragment : Fragment(), PaymentCallback {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        // Initialize Room Database
+        localDb = Room.databaseBuilder(
+            requireContext().applicationContext,
+            CoursesDatabase::class.java, "courses_db"
+        ).build()
+
+        loadCoursesFromCache()
         fetchPurchasedCourses()
 
         swipeRefreshLayout?.setOnRefreshListener {
@@ -44,6 +58,18 @@ class CoursesFragment : Fragment(), PaymentCallback {
         }
 
         return view
+    }
+
+    // ✅ Load courses from Room DB first (Offline Support)
+    private fun loadCoursesFromCache() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val cachedCourses = localDb.coursesDao().getAllCourses().map { it.toCourseData() }
+            withContext(Dispatchers.Main) {
+                if (cachedCourses.isNotEmpty()) {
+                    setupAdapter(cachedCourses)
+                }
+            }
+        }
     }
 
     private fun fetchPurchasedCourses() {
@@ -90,16 +116,8 @@ class CoursesFragment : Fragment(), PaymentCallback {
 
                     if (!isAdded) return
 
-                    adapter = CoursesAdapter(requireContext(), courses, purchasedCourses) { course ->
-                        selectedCourse = course
-                        if (course.unitNumber == 0) {
-                            unlockFreeCourse(course)
-                        } else {
-                            startPayment()
-                        }
-                    }
-                    recyclerView?.adapter = adapter
-                    adapter?.notifyDataSetChanged()
+                    setupAdapter(courses)
+                    cacheCoursesLocally(courses) // ✅ Store courses in Room DB
                 } else {
                     Log.e("API", "Failed to fetch courses: ${response.errorBody()?.string()}")
                     Toast.makeText(context, "Failed to fetch courses", Toast.LENGTH_SHORT).show()
@@ -112,6 +130,26 @@ class CoursesFragment : Fragment(), PaymentCallback {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun setupAdapter(courses: List<CourseData>) {
+        adapter = CoursesAdapter(requireContext(), courses, purchasedCourses) { course ->
+            selectedCourse = course
+            if (course.unitNumber == 0) {
+                unlockFreeCourse(course)
+            } else {
+                startPayment()
+            }
+        }
+        recyclerView?.adapter = adapter
+    }
+
+    // ✅ Store courses in Room DB
+    private fun cacheCoursesLocally(courses: List<CourseData>) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            localDb.coursesDao().clearCourses()
+            localDb.coursesDao().insertCourses(courses.map { it.toCourseEntity() })
+        }
     }
 
     private fun unlockFreeCourse(course: CourseData) {
@@ -129,6 +167,7 @@ class CoursesFragment : Fragment(), PaymentCallback {
             .addOnSuccessListener {
                 purchasedCourses.add(course.unitName)
                 adapter?.notifyDataSetChanged()
+                cachePurchasedCourse(course) // ✅ Save the purchased course locally
                 Toast.makeText(context, "Syllabus Unlocked!", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
@@ -179,8 +218,7 @@ class CoursesFragment : Fragment(), PaymentCallback {
 
                     purchasedCourses.add(course.unitName)
                     adapter?.notifyDataSetChanged()
-                    fetchPurchasedCourses()
-
+                    cachePurchasedCourse(course) // ✅ Save the purchased course locally
                     Toast.makeText(context, "Course Unlocked!", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
@@ -191,18 +229,15 @@ class CoursesFragment : Fragment(), PaymentCallback {
     }
 
     override fun onPaymentError(errorCode: Int, errorMessage: String?) {
-        Toast.makeText(context, "Payment Failed: $errorMessage", Toast.LENGTH_LONG).show()
+        requireActivity().runOnUiThread {
+            Toast.makeText(context, "Payment Failed: $errorMessage", Toast.LENGTH_LONG).show()
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchPurchasedCourses()
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        recyclerView = null
-        swipeRefreshLayout = null
-        adapter = null
+    private fun cachePurchasedCourse(course: CourseData) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            localDb.coursesDao().insertCourses(listOf(course.toCourseEntity()))
+        }
     }
 }
